@@ -11,10 +11,12 @@ const App = () => {
     {
       id: 1,
       title: "Project Launch",
-      subtasks: ["Research", "Planning", "Execution"],
+      subtasks: ["Research", "Planning"],
       completed: [],
     },
   ]);
+  const [newGlobalTask, setNewGlobalTask] = useState("");
+  const [newSubtask, setNewSubtask] = useState("");
 
   const addDailyTask = () => {
     if (newTask.trim()) {
@@ -34,6 +36,33 @@ const App = () => {
     });
   };
 
+  const addGlobalTask = () => {
+    if (newGlobalTask.trim()) {
+      setGlobalTasks((prev) => [
+        ...prev,
+        { id: Date.now(), title: newGlobalTask, subtasks: [], completed: [] },
+      ]);
+      setNewGlobalTask("");
+    }
+  };
+
+  const removeGlobalTask = (taskId) => {
+    setGlobalTasks((prev) => prev.filter((task) => task.id !== taskId));
+  };
+
+  const addSubtask = (taskId) => {
+    if (newSubtask.trim()) {
+      setGlobalTasks((prev) =>
+        prev.map((task) =>
+          task.id === taskId
+            ? { ...task, subtasks: [...task.subtasks, newSubtask] }
+            : task
+        )
+      );
+      setNewSubtask("");
+    }
+  };
+
   const toggleSubtask = (taskId, subtask) => {
     setGlobalTasks((prev) =>
       prev.map((task) =>
@@ -49,16 +78,12 @@ const App = () => {
     );
   };
 
-  const removeGlobalTask = (taskId) => {
-    setGlobalTasks((prev) => prev.filter((task) => task.id !== taskId));
-  };
-
   return (
-    <div className="min-h-screen grid grid-rows-[1fr,2fr] bg-gray-100 p-4">
-      {/* Top Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div className="min-h-screen grid grid-rows-[1fr,2fr] bg-gray-100 p-4 md:grid-rows-1 md:grid-cols-2 gap-4">
+      {/* Calendar & Daily Tasks */}
+      <div className="flex flex-col gap-4 md:grid md:grid-rows-1 md:grid-cols-2">
         {/* Calendar Section */}
-        <div className="bg-white rounded-lg shadow p-4">
+        <div className="bg-white rounded-lg shadow p-4 flex-1">
           <h2 className="text-xl font-bold mb-4">Календар</h2>
           <Calendar
             onChange={(date) => setSelectedDate(date.toDateString())}
@@ -67,7 +92,7 @@ const App = () => {
         </div>
 
         {/* Daily Tasks Section */}
-        <div className="bg-white rounded-lg shadow p-4">
+        <div className="bg-white rounded-lg shadow p-4 flex-1">
           <h2 className="text-xl font-bold mb-4">Щоденні завдання</h2>
           <div className="flex gap-2 mb-4">
             <input
@@ -103,9 +128,24 @@ const App = () => {
         </div>
       </div>
 
-      {/* Bottom Section */}
+      {/* Global Tasks */}
       <div className="bg-white rounded-lg shadow p-4 overflow-y-auto">
         <h2 className="text-xl font-bold mb-4">Глобальні завдання</h2>
+        <div className="flex gap-2 mb-4">
+          <input
+            type="text"
+            placeholder="Додати глобальне завдання"
+            value={newGlobalTask}
+            onChange={(e) => setNewGlobalTask(e.target.value)}
+            className="border rounded px-2 py-1 w-full"
+          />
+          <button
+            onClick={addGlobalTask}
+            className="bg-green-500 text-white px-4 py-1 rounded"
+          >
+            Додати
+          </button>
+        </div>
         <div className="space-y-4">
           {globalTasks.map((task) => (
             <div key={task.id} className="border rounded-lg p-4">
@@ -116,6 +156,21 @@ const App = () => {
                   className="text-red-500 hover:underline"
                 >
                   Видалити
+                </button>
+              </div>
+              <div className="flex gap-2 mb-2">
+                <input
+                  type="text"
+                  placeholder="Додати підзавдання"
+                  value={newSubtask}
+                  onChange={(e) => setNewSubtask(e.target.value)}
+                  className="border rounded px-2 py-1 w-full"
+                />
+                <button
+                  onClick={() => addSubtask(task.id)}
+                  className="bg-blue-500 text-white px-4 py-1 rounded"
+                >
+                  Додати
                 </button>
               </div>
               <ul className="space-y-1">
