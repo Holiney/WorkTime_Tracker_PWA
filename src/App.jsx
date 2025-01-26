@@ -81,18 +81,20 @@ const App = () => {
   return (
     <div className="min-h-screen grid grid-rows-[1fr,2fr] bg-gray-100 p-4 md:grid-rows-1 md:grid-cols-2 gap-4">
       {/* Calendar & Daily Tasks */}
-      <div className="flex flex-col gap-4 md:grid md:grid-rows-1 md:grid-cols-2">
+      <div className="grid grid-cols-2 gap-3">
         {/* Calendar Section */}
-        <div className="bg-white rounded-lg shadow p-4 flex-1">
+        <div className="bg-white rounded-lg shadow p-4 col-span-1">
           <h2 className="text-xl font-bold mb-4">Календар</h2>
-          <Calendar
-            onChange={(date) => setSelectedDate(date.toDateString())}
-            value={new Date(selectedDate)}
-          />
+          <div className="-scale-z-95 origin-top-left">
+            <Calendar
+              onChange={(date) => setSelectedDate(date.toDateString())}
+              value={new Date(selectedDate)}
+            />
+          </div>
         </div>
 
         {/* Daily Tasks Section */}
-        <div className="bg-white rounded-lg shadow p-4 flex-1">
+        <div className="bg-white rounded-lg shadow p-4 col-span-1">
           <h2 className="text-xl font-bold mb-4">Щоденні завдання</h2>
           <div className="flex gap-2 mb-4">
             <input
