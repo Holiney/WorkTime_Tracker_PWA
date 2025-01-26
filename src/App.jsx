@@ -13,8 +13,8 @@ const App = () => {
   return (
     <div className="h-screen bg-gray-100 flex flex-col items-center justify-center">
       <h1 className="text-4xl font-bold text-blue-600 mb-4">React Клікер</h1>
-      <p className="text-lg mb-4">
-        Кількість кліків: <span className="font-bold">{count}</span>
+      <p className="text-lg mb-4 bg-blue-300 mb-5 text-white px-4 py-1 rounded-lg shadow hover:bg-blue-800 transition">
+        Кількість кліків: <span className="font-bold ">{count}</span>
       </p>
       <button
         type="button"
