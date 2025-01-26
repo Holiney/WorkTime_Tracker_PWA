@@ -3,8 +3,11 @@ import { useState } from "react";
 const App = () => {
   const [count, setCount] = useState(0);
 
-  const handleClick = () => {
+  const handleClickPlus = () => {
     setCount((prev) => prev + 1);
+  };
+  const handleClickMinus = () => {
+    setCount((prev) => prev - 1);
   };
 
   return (
@@ -15,10 +18,17 @@ const App = () => {
       </p>
       <button
         type="button"
-        onClick={handleClick}
-        className="bg-blue-500 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-800 transition"
+        onClick={handleClickPlus}
+        className="bg-blue-500 mb-5 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-800 transition"
       >
-        Клікнути
+        Додати 1
+      </button>
+      <button
+        type="button"
+        onClick={handleClickMinus}
+        className="bg-red-400 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-800 transition"
+      >
+        Відняти 1
       </button>
     </div>
   );
