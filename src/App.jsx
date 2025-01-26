@@ -4,9 +4,9 @@ import "react-calendar/dist/Calendar.css";
 import "./index.css";
 
 const App = () => {
-  const [dailyTasks, setDailyTasks] = useState([]);
+  const [dailyTasks, setDailyTasks] = useState({});
   const [newTask, setNewTask] = useState("");
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date().toDateString());
   const [globalTasks, setGlobalTasks] = useState([
     {
       id: 1,
@@ -18,9 +18,20 @@ const App = () => {
 
   const addDailyTask = () => {
     if (newTask.trim()) {
-      setDailyTasks([...dailyTasks, newTask]);
+      setDailyTasks((prev) => ({
+        ...prev,
+        [selectedDate]: [...(prev[selectedDate] || []), newTask],
+      }));
       setNewTask("");
     }
+  };
+
+  const removeDailyTask = (index) => {
+    setDailyTasks((prev) => {
+      const updatedTasks = [...(prev[selectedDate] || [])];
+      updatedTasks.splice(index, 1);
+      return { ...prev, [selectedDate]: updatedTasks };
+    });
   };
 
   const toggleSubtask = (taskId, subtask) => {
@@ -38,14 +49,21 @@ const App = () => {
     );
   };
 
+  const removeGlobalTask = (taskId) => {
+    setGlobalTasks((prev) => prev.filter((task) => task.id !== taskId));
+  };
+
   return (
-    <div className="h-screen grid grid-rows-[1fr,2fr] bg-gray-100 p-4">
+    <div className="min-h-screen grid grid-rows-[1fr,2fr] bg-gray-100 p-4">
       {/* Top Section */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Calendar Section */}
         <div className="bg-white rounded-lg shadow p-4">
           <h2 className="text-xl font-bold mb-4">Календар</h2>
-          <Calendar onChange={setSelectedDate} value={selectedDate} />
+          <Calendar
+            onChange={(date) => setSelectedDate(date.toDateString())}
+            value={new Date(selectedDate)}
+          />
         </div>
 
         {/* Daily Tasks Section */}
@@ -66,10 +84,19 @@ const App = () => {
               Додати
             </button>
           </div>
-          <ul className="space-y-2">
-            {dailyTasks.map((task, index) => (
-              <li key={index} className="border rounded px-2 py-1">
-                {task}
+          <ul className="space-y-2 max-h-40 overflow-y-auto">
+            {(dailyTasks[selectedDate] || []).map((task, index) => (
+              <li
+                key={index}
+                className="flex justify-between items-center border rounded px-2 py-1"
+              >
+                <span>{task}</span>
+                <button
+                  onClick={() => removeDailyTask(index)}
+                  className="text-red-500 hover:underline"
+                >
+                  Видалити
+                </button>
               </li>
             ))}
           </ul>
@@ -82,7 +109,15 @@ const App = () => {
         <div className="space-y-4">
           {globalTasks.map((task) => (
             <div key={task.id} className="border rounded-lg p-4">
-              <h3 className="text-lg font-bold mb-2">{task.title}</h3>
+              <div className="flex justify-between items-center mb-2">
+                <h3 className="text-lg font-bold">{task.title}</h3>
+                <button
+                  onClick={() => removeGlobalTask(task.id)}
+                  className="text-red-500 hover:underline"
+                >
+                  Видалити
+                </button>
+              </div>
               <ul className="space-y-1">
                 {task.subtasks.map((subtask, idx) => (
                   <li key={idx} className="flex items-center gap-2">
