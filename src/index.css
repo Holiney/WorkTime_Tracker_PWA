@@ -2,4 +2,5 @@
 html,
 body {
   overscroll-behavior: none;
+  overflow-y: hidden;
 }
