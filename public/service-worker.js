@@ -1,39 +1,10 @@
-// const CACHE_NAME = "todo-cache-v1";
-// const urlsToCache = ["/", "/index.html", "/main.css", "/main.js"];
-
-// self.addEventListener("install", (event) => {
-//   event.waitUntil(
-//     caches.open(CACHE_NAME).then((cache) => {
-//       console.log("Кешування ресурсів");
-//       return cache.addAll(urlsToCache);
-//     })
-//   );
-// });
-
-// self.addEventListener("fetch", (event) => {
-//   event.respondWith(
-//     caches.match(event.request).then((response) => {
-//       return response || fetch(event.request);
-//     })
-//   );
-// });
-
-// self.addEventListener("activate", (event) => {
-//   const cacheWhitelist = [CACHE_NAME];
-//   event.waitUntil(
-//     caches.keys().then((cacheNames) =>
-//       Promise.all(
-//         cacheNames.map((cacheName) => {
-//           if (!cacheWhitelist.includes(cacheName)) {
-//             console.log("Видалення старого кешу:", cacheName);
-//             return caches.delete(cacheName);
-//           }
-//         })
-//       )
-//     )
-//   );
-// });
 const CACHE_NAME = "worktime-tracker-v1";
+
+const iconPaths = Array.from(
+  { length: 20 },
+  (_, index) => `/userIcons/icon${index + 1}.png`
+);
+
 const ASSETS = [
   "/",
   "/index.html",
@@ -41,26 +12,7 @@ const ASSETS = [
   "/static/css/main.css",
   "/icons/icon-192x192.png",
   "/icons/icon-512x512.png",
-  "/userIcons/icon1.png",
-  "/userIcons/icon2.png",
-  "/userIcons/icon3.png",
-  "/userIcons/icon4.png",
-  "/userIcons/icon5.png",
-  "/userIcons/icon6.png",
-  "/userIcons/icon7.png",
-  "/userIcons/icon8.png",
-  "/userIcons/icon9.png",
-  "/userIcons/icon10.png",
-  "/userIcons/icon11.png",
-  "/userIcons/icon12.png",
-  "/userIcons/icon13.png",
-  "/userIcons/icon14.png",
-  "/userIcons/icon15.png",
-  "/userIcons/icon16.png",
-  "/userIcons/icon17.png",
-  "/userIcons/icon18.png",
-  "/userIcons/icon19.png",
-  "/userIcons/icon20.png",
+  ...iconPaths,
 ];
 
 self.addEventListener("install", (event) => {
