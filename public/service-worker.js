@@ -12,6 +12,7 @@ const ASSETS = [
   "/static/css/main.css",
   "/icons/icon-192x192.png",
   "/icons/icon-512x512.png",
+  "/userIcons/icon2.png",
   ...iconPaths,
 ];
 
