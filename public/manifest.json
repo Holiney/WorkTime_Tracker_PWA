@@ -1,6 +1,6 @@
 {
-  "name": "Clicker App",
-  "short_name": "Clicker",
+  "name": "WorkTime",
+  "short_name": "WorkTime Tracker",
   "icons": [
     {
       "src": "/icon-192.png",
@@ -13,9 +13,8 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
+  "start_url": "/",
   "display": "standalone",
-  "scope": "/",
-  "start_url": "/"
+  "background_color": "#ffffff",
+  "theme_color": "#1e40af"
 }
