@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 
 function Header() {
   return (
-    <header className="flex items-center justify-center font-serif bg-sky-600 px-4 py-3  border-b border-sky-950 sm:px-6">
+    <header className="flex items-center justify-center bg-gray-900 text-white px-3 py-3 shadow-lg relative">
       <Link to="/" className="tracking-widest">
-        WorkTime Tracker
+        WorkTime
       </Link>
     </header>
   );

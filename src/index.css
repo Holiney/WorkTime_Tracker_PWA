@@ -32,3 +32,19 @@
     }
   }
 }
+/* Заборонити виділення тексту для всіх елементів */
+* {
+  user-select: none; /* Заборона виділення тексту */
+  -webkit-user-select: none; /* Для Safari */
+  -moz-user-select: none; /* Для Firefox */
+  -ms-user-select: none; /* Для Internet Explorer/Edge */
+}
+
+/* Дозволити виділення тексту для input та textarea */
+input,
+textarea {
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
