@@ -9,7 +9,7 @@ function AvatarModal({ isOpen, onClose, onSelectAvatar }) {
           {Array.from({ length: 20 }, (_, index) => (
             <img
               key={index}
-              src={`../public/userIcons/icon${index + 1}.png`}
+              src={`/userIcons/icon${index + 1}.png`}
               alt={`Avatar ${index + 1}`}
               className="rounded-full h-12 w-12 border-2 border-gray-300 cursor-pointer hover:border-blue-500"
               onClick={() => onSelectAvatar(`icon${index + 1}.png`)} // Викликаємо функцію при виборі аватара
