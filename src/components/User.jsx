@@ -51,7 +51,7 @@ function User() {
         className="h-12   border-gray-600"
       /> */}
       <img
-        src={`../public/userIcons/${user.avatar || "icon2.png"}`} // Використовуємо аватар користувача або avatar_1.png за замовчуванням
+        src={`/userIcons/${user.avatar || "icon2.png"}`} // Використовуємо аватар користувача або avatar_1.png за замовчуванням
         alt="User Avatar"
         className="rounded-full h-12 w-12 border-2 border-gray-600 cursor-pointer"
         onClick={() => setIsAvatarModalOpen(true)} // Відкриваємо модальне вікно при кліку на аватар
