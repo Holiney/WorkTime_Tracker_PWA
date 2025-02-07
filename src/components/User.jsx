@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useUser } from "../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
+import AvatarModal from "./AvatarModal";
 
 function User() {
   const { user, setUser } = useUser();
@@ -10,7 +11,12 @@ function User() {
   const [newName, setNewName] = useState(user.name);
   const [newRate, setNewRate] = useState(user.hourlyRate);
   const navigate = useNavigate();
+  const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
 
+  const handleAvatarChange = (avatar) => {
+    setUser({ ...user, avatar }); // Оновлюємо аватар користувача
+    setIsAvatarModalOpen(false); // Закриваємо модальне вікно
+  };
   if (!user)
     return <p className="text-center text-gray-500">Не авторизований</p>;
 
@@ -39,15 +45,26 @@ function User() {
 
   return (
     <div className="flex items-center gap-4 justify-between bg-gray-900 text-white px-4 py-2 shadow-lg relative">
-      <img
-        src={`https://i.pravatar.cc/100?u=${user.name}`}
+      {/* <img
+        src="../public/userIcons/02.png"
         alt="User Avatar"
-        className="rounded-full h-12 w-12 border-2 border-gray-600"
+        className="h-12   border-gray-600"
+      /> */}
+      <img
+        src={`../public/userIcons/${user.avatar || "icon2.png"}`} // Використовуємо аватар користувача або avatar_1.png за замовчуванням
+        alt="User Avatar"
+        className="rounded-full h-12 w-12 border-2 border-gray-600 cursor-pointer"
+        onClick={() => setIsAvatarModalOpen(true)} // Відкриваємо модальне вікно при кліку на аватар
       />
-
       <span className="text-lg font-semibold">{user.name}</span>
       <span className="text-sm text-gray-300">{user.hourlyRate}€/год</span>
 
+      {/* Використовуємо AvatarModal */}
+      <AvatarModal
+        isOpen={isAvatarModalOpen}
+        onClose={() => setIsAvatarModalOpen(false)}
+        onSelectAvatar={handleAvatarChange}
+      />
       {/* Бургер-іконка */}
       <button
         onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -89,8 +106,8 @@ function User() {
 
       {/* Модальне вікно редагування */}
       {isEditModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+        <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center">
+          <div className="bg-gray-100 p-6 rounded-lg shadow-lg w-96">
             <h2 className="text-xl font-semibold mb-4 text-gray-800">
               Редагування профілю
             </h2>
@@ -146,20 +163,20 @@ function User() {
 
       {/* Модальне вікно підтвердження виходу */}
       {isLogoutModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+        <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center">
+          <div className="bg-gray-900 p-6 rounded-lg shadow-lg w-96">
             <h2 className="text-xl font-semibold mb-4">Підтвердження виходу</h2>
-            <p className="text-gray-700 mb-6">Ви впевнені, що хочете вийти?</p>
+            <p className="text-white mb-6">Ви впевнені, що хочете вийти?</p>
             <div className="flex justify-end space-x-4">
               <button
                 onClick={() => setIsLogoutModalOpen(false)}
-                className="bg-gray-500 text-white px-4 py-2 rounded-lg"
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-gray-600"
               >
                 Скасувати
               </button>
               <button
                 onClick={confirmLogout}
-                className="bg-red-500 text-white px-4 py-2 rounded-lg"
+                className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
               >
                 Вийти
               </button>
