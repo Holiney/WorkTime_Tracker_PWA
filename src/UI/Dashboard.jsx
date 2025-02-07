@@ -4,7 +4,6 @@ function Dashboard() {
   return (
     <div>
       <User />
-      Почнімо
     </div>
   );
 }

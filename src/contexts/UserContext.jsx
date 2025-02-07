@@ -8,7 +8,7 @@ export function UserProvider({ children }) {
     return storedUser ? JSON.parse(storedUser) : { name: "", horlyRate: 10 };
   });
   useEffect(() => {
-    if (user.name || user.horlyRate) {
+    if (user.name || user.hourlyRate) {
       localStorage.setItem("user", JSON.stringify(user));
     }
   }, [user]);
