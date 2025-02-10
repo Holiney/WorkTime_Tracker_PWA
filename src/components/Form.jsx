@@ -39,7 +39,7 @@ function Form({ addItem }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-sky-800 p-2 rounded-xl shadow-md flex items-center gap-2 flex-nowrap overflow-hidden"
+      className="bg-sky-800 p-2 rounded-xl shadow-md flex items-center gap-2 overflow-hidden justify-between"
     >
       <div className="p-2 rounded-lg text-white flex items-center relative">
         <span
@@ -70,7 +70,7 @@ function Form({ addItem }) {
       </select>
 
       <input
-        className=" rounded-lg text-white placeholder-gray-300 flex-grow text-sm"
+        className=" rounded-lg text-white placeholder-gray-300 min-w-5 text-sm"
         type="text"
         placeholder="Замітка..."
         value={description}
