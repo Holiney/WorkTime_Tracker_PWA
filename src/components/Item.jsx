@@ -60,7 +60,10 @@ function Item({
   // Функція для отримання дня тижня (пн, вт, ср, чт, пт, сб, нд)
   const getDayOfWeek = (dateString) => {
     const days = ["нд", "пн", "вт", "ср", "чт", "пт", "сб"];
-    const date = new Date(dateString.split(".").reverse().join("-")); // Перетворюємо "дд.мм" на "рррр-мм-дд"
+    const currentYear = new Date().getFullYear(); // Отримуємо поточний рік
+    const date = new Date(
+      `${dateString}.${currentYear}`.split(".").reverse().join("-")
+    ); // Формат "рррр-мм-дд"
     return days[date.getDay()];
   };
 
