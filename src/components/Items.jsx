@@ -9,19 +9,27 @@ function Items({ items, setItems, onRemove }) {
     );
   };
 
-  // Функція для отримання номера тижня (починаючи з ПОНЕДІЛКА)
-  const getWeekNumberInMonth = (date) => {
-    const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
-    let firstMonday = firstDayOfMonth.getDay(); // 0 - неділя, 1 - понеділок, ..., 6 - субота
+  // Функція для отримання номера тижня у форматі "YYYY-MM-WeekNumber"
+  const getWeekKey = (date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // Додаємо 1, бо getMonth() повертає від 0 до 11
+    const firstDayOfMonth = new Date(year, date.getMonth(), 1);
+    const firstMonday =
+      firstDayOfMonth.getDay() === 1
+        ? firstDayOfMonth
+        : new Date(
+            year,
+            date.getMonth(),
+            1 + ((6 - firstDayOfMonth.getDay()) % 7)
+          );
 
-    if (firstMonday === 0) firstMonday = 7; // Якщо перше число місяця - неділя, коригуємо до 7
-    const daysToMonday = firstMonday === 1 ? 0 : 6 - firstMonday;
-    const firstMondayDate = firstDayOfMonth.getDate() + daysToMonday;
+    const daysSinceFirstMonday = (date - firstMonday) / (1000 * 60 * 60 * 24);
+    const weekNumber = Math.floor(daysSinceFirstMonday / 7) + 1;
 
-    return Math.ceil((date.getDate() - firstMondayDate + 1) / 7) + 1;
+    return `${year}-${month.toString().padStart(2, "0")}-Тиждень ${weekNumber}`;
   };
 
-  // Функція для групування і сортування елементів по тижнях
+  // Функція для групування та сортування елементів по тижнях
   const groupItemsByWeek = (items) => {
     const grouped = {};
 
@@ -34,21 +42,12 @@ function Items({ items, setItems, onRemove }) {
 
     sortedItems.forEach((item) => {
       const date = new Date(item.date.split(".").reverse().join("-"));
-      const weekNumber = getWeekNumberInMonth(date);
+      const weekKey = getWeekKey(date);
 
-      if (!grouped[weekNumber]) {
-        grouped[weekNumber] = [];
+      if (!grouped[weekKey]) {
+        grouped[weekKey] = [];
       }
-      grouped[weekNumber].push(item);
-    });
-
-    // Сортуємо кожен тиждень за датою
-    Object.keys(grouped).forEach((week) => {
-      grouped[week].sort((a, b) => {
-        const dateA = new Date(a.date.split(".").reverse().join("-"));
-        const dateB = new Date(b.date.split(".").reverse().join("-"));
-        return dateA - dateB;
-      });
+      grouped[weekKey].push(item);
     });
 
     return grouped;
@@ -58,11 +57,11 @@ function Items({ items, setItems, onRemove }) {
 
   return (
     <ul className="p-4 space-y-4">
-      {Object.entries(groupedItems).map(([weekNumber, weekItems]) => (
-        <div key={weekNumber} className="flex flex-col gap-1">
+      {Object.entries(groupedItems).map(([weekKey, weekItems]) => (
+        <div key={weekKey} className="flex flex-col gap-1">
           {/* Відображення лінії розділення та назви тижня */}
           <div className="flex items-center mb-2">
-            <span className="text-sm text-gray-400">Тиждень {weekNumber}</span>
+            <span className="text-sm text-gray-400">{weekKey}</span>
             <div className="flex-grow border-t border-gray-600 ml-2"></div>
           </div>
 
