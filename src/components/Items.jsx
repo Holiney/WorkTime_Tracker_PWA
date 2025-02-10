@@ -16,7 +16,7 @@ function Items({ items, setItems }) {
   const sortedItems = sortItemsByDate([...items]);
 
   return (
-    <ul className="p-4 space-y-2">
+    <ul className="p-2 space-y-2">
       {sortedItems.map((item) => (
         <Item key={item.id} {...item} onRemove={removeItem} />
       ))}

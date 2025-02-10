@@ -79,7 +79,7 @@ function Form({ addItem }) {
 
       <button
         type="submit"
-        className="p-3 rounded-lg text-white hover:bg-green-600 transition-colors text-sm"
+        className="p-2 rounded-lg text-white transition-colors text-sm pr-3"
       >
         ➕
       </button>
