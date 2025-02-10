@@ -15,7 +15,7 @@ function Items({ items, setItems, onRemove }) {
     let firstMonday = firstDayOfMonth.getDay(); // 0 - неділя, 1 - понеділок, ..., 6 - субота
 
     if (firstMonday === 0) firstMonday = 7; // Якщо перше число місяця - неділя, коригуємо до 7
-    const daysToMonday = firstMonday === 1 ? 0 : 8 - firstMonday;
+    const daysToMonday = firstMonday === 1 ? 0 : 6 - firstMonday;
     const firstMondayDate = firstDayOfMonth.getDate() + daysToMonday;
 
     return Math.ceil((date.getDate() - firstMondayDate + 1) / 7) + 1;
