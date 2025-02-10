@@ -60,7 +60,7 @@ function Form({ addItem }) {
       <select
         value={selectedHours}
         onChange={(e) => setSelectedHours(Number(e.target.value))}
-        className="p-2 rounded-lg text-white text-sm bg-sky-800 w-20"
+        className=" rounded-lg text-white text-sm bg-sky-800 w-20"
       >
         {Array.from({ length: 15 }, (_, i) => i + 1).map((num) => (
           <option value={num} key={num}>
@@ -70,7 +70,7 @@ function Form({ addItem }) {
       </select>
 
       <input
-        className="p-2 rounded-lg text-white placeholder-gray-300 flex-grow text-sm"
+        className=" rounded-lg text-white placeholder-gray-300 flex-grow text-sm"
         type="text"
         placeholder="Замітка..."
         value={description}
@@ -79,7 +79,7 @@ function Form({ addItem }) {
 
       <button
         type="submit"
-        className="p-2 rounded-lg text-white hover:bg-green-600 transition-colors text-sm"
+        className="p-3 rounded-lg text-white hover:bg-green-600 transition-colors text-sm"
       >
         ➕
       </button>
