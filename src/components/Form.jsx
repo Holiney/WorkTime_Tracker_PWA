@@ -27,19 +27,25 @@ function Form({ addItem }) {
     // Якщо description порожній, встановлюємо значення за замовчуванням
     const itemDescription = description.trim() || "Без заміток";
 
-    addItem({
+    // Створюємо новий елемент з полем isPaid: false
+    const newItem = {
       date: formattedDate,
       hours: selectedHours,
-      description: itemDescription, // Використовуємо itemDescription
-    });
+      description: itemDescription,
+      isPaid: false, // Додаємо поле isPaid
+    };
 
-    setDescription(""); // Очищаємо поле після додавання
+    // Викликаємо функцію addItem з батьківського компонента
+    addItem(newItem);
+
+    // Очищаємо поле після додавання
+    setDescription("");
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-sky-800 p-2 rounded-xl shadow-md flex items-center gap-2 overflow-hidden justify-between"
+      className="bg-sky-800 p-1 rounded-xl shadow-md flex items-center flex-nowrap overflow-hidden"
     >
       <div className="p-2 rounded-lg text-white flex items-center relative">
         <span
@@ -60,7 +66,7 @@ function Form({ addItem }) {
       <select
         value={selectedHours}
         onChange={(e) => setSelectedHours(Number(e.target.value))}
-        className=" rounded-lg text-white text-sm bg-sky-800 w-20"
+        className="p-2 rounded-lg text-white text-sm bg-sky-800 w-20"
       >
         {Array.from({ length: 15 }, (_, i) => i + 1).map((num) => (
           <option value={num} key={num}>
@@ -70,7 +76,7 @@ function Form({ addItem }) {
       </select>
 
       <input
-        className=" rounded-lg text-white placeholder-gray-300 min-w-5 text-sm"
+        className="p-2 rounded-lg text-white placeholder-gray-300 flex-grow text-sm"
         type="text"
         placeholder="Замітка..."
         value={description}
@@ -79,7 +85,7 @@ function Form({ addItem }) {
 
       <button
         type="submit"
-        className="p-2 rounded-lg text-white transition-colors text-sm pr-3"
+        className="p-2 rounded-lg text-white hover:bg-green-600 transition-colors text-sm"
       >
         ➕
       </button>
