@@ -83,7 +83,7 @@ function Items({ items, setItems, onRemove }) {
   const groupedItems = groupItemsByWeek(items);
 
   return (
-    <ul className="p-4 space-y-4">
+    <ul className="p-4 space-y-4 z-10">
       {Object.entries(groupedItems).map(([weekKey, weekItems]) => (
         <div key={weekKey} className="flex flex-col gap-1">
           {/* Відображення лінії розділення та назви тижня */}
