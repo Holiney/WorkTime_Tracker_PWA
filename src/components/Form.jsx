@@ -76,7 +76,7 @@ function Form({ addItem }) {
       </select>
 
       <input
-        className="p-2 rounded-lg text-white placeholder-gray-300 flex-grow text-sm"
+        className="p-2 min-w-5 rounded-lg text-white placeholder-gray-300 flex-grow text-sm"
         type="text"
         placeholder="Замітка..."
         value={description}
@@ -85,9 +85,9 @@ function Form({ addItem }) {
 
       <button
         type="submit"
-        className="p-2 rounded-lg text-white hover:bg-green-600 transition-colors text-sm"
+        className="p-2 mr-2 bg-cyan-600 rounded-lg text-white hover:bg-green-600 transition-colors text-sm"
       >
-        ➕
+        Додати
       </button>
     </form>
   );

@@ -9,24 +9,44 @@ function Items({ items, setItems, onRemove }) {
     );
   };
 
-  // Функція для отримання номера тижня у форматі "YYYY-MM-WeekNumber"
+  // Функція для отримання ключа тижня у форматі "Місяць X, Тиждень Y"
   const getWeekKey = (date) => {
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1; // Додаємо 1, бо getMonth() повертає від 0 до 11
-    const firstDayOfMonth = new Date(year, date.getMonth(), 1);
+    const monthNames = [
+      "Січень",
+      "Лютий",
+      "Березень",
+      "Квітень",
+      "Травень",
+      "Червень",
+      "Липень",
+      "Серпень",
+      "Вересень",
+      "Жовтень",
+      "Листопад",
+      "Грудень",
+    ];
+    const month = monthNames[date.getMonth()]; // Отримуємо назву місяця
+
+    // Знаходимо перший понеділок місяця
+    const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
     const firstMonday =
       firstDayOfMonth.getDay() === 1
         ? firstDayOfMonth
         : new Date(
-            year,
+            date.getFullYear(),
             date.getMonth(),
-            1 + ((6 - firstDayOfMonth.getDay()) % 7)
+            1 + ((8 - firstDayOfMonth.getDay()) % 7)
           );
 
-    const daysSinceFirstMonday = (date - firstMonday) / (1000 * 60 * 60 * 24);
+    // Обчислюємо різницю в днях між поточною датою та першим понеділком
+    const daysSinceFirstMonday = Math.floor(
+      (date - firstMonday) / (1000 * 60 * 60 * 24)
+    );
+
+    // Номер тижня починається з 1
     const weekNumber = Math.floor(daysSinceFirstMonday / 7) + 1;
 
-    return `${year}-${month.toString().padStart(2, "0")}-Тиждень ${weekNumber}`;
+    return `${month}, Тиждень ${weekNumber}`;
   };
 
   // Функція для групування та сортування елементів по тижнях
@@ -35,13 +55,20 @@ function Items({ items, setItems, onRemove }) {
 
     // Сортуємо всі елементи по даті перед групуванням
     const sortedItems = [...items].sort((a, b) => {
-      const dateA = new Date(a.date.split(".").reverse().join("-"));
-      const dateB = new Date(b.date.split(".").reverse().join("-"));
+      const dateA = new Date(
+        a.date.split(".").reverse().join("-") + `-${new Date().getFullYear()}`
+      );
+      const dateB = new Date(
+        b.date.split(".").reverse().join("-") + `-${new Date().getFullYear()}`
+      );
       return dateA - dateB;
     });
 
     sortedItems.forEach((item) => {
-      const date = new Date(item.date.split(".").reverse().join("-"));
+      const date = new Date(
+        item.date.split(".").reverse().join("-") +
+          `-${new Date().getFullYear()}`
+      );
       const weekKey = getWeekKey(date);
 
       if (!grouped[weekKey]) {
@@ -64,7 +91,6 @@ function Items({ items, setItems, onRemove }) {
             <span className="text-sm text-gray-400">{weekKey}</span>
             <div className="flex-grow border-t border-gray-600 ml-2"></div>
           </div>
-
           {/* Відображення елементів тижня */}
           {weekItems.map((item) => (
             <Item

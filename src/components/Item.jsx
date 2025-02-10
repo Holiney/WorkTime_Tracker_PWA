@@ -36,7 +36,7 @@ function Item({
         </div>
         <span className="text-sm">{hours} год</span>
       </div>
-      <span className="flex-grow text-center">{description}</span>
+      <span className="flex-grow text-center ">{description}</span>
       {/* Надпис "Оплачено" для оплачених елементів */}
       {isPaid && <span className="text-sm text-gray-300 mr-2">Оплачено</span>}
 
