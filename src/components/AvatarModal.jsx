@@ -49,7 +49,7 @@ function AvatarModal({ isOpen, onClose, onSelectAvatar }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 backdrop-blur-sm bg-black/50 flex items-center justify-center">
+    <div className="fixed inset-0 backdrop-blur-sm z-4 bg-black/50 flex items-center justify-center">
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
         <h2 className="text-xl font-semibold mb-4">Виберіть аватар</h2>
         <div className="grid grid-cols-4 gap-4 max-h-64 overflow-y-auto">

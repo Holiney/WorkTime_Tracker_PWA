@@ -356,7 +356,7 @@ function User() {
       <Modal
         isOpen={isLogoutModalOpen}
         onRequestClose={() => setIsLogoutModalOpen(false)}
-        className="modal bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-96 mx-auto mt-20 outline-none"
+        className="modal bg-white p-6  z-4 rounded-lg shadow-lg w-11/12 md:w-96 mx-auto mt-20 outline-none"
         overlayClassName="overlay fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center pt-20"
       >
         <h2 className="text-xl font-semibold mb-4">Підтвердження виходу</h2>

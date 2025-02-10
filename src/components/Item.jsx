@@ -19,7 +19,7 @@ function Item({
 
   return (
     <li
-      className={`bg-sky-700 p-2 rounded-lg flex items-center justify-between  z-11 text-white ${
+      className={`bg-sky-700 p-2 rounded-lg flex items-center justify-between   text-white ${
         isPaid ? "opacity-50" : ""
       }`}
     >
