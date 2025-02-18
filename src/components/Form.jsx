@@ -24,21 +24,17 @@ function Form({ addItem }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Якщо description порожній, встановлюємо значення за замовчуванням
     const itemDescription = description.trim() || "Без заміток";
 
-    // Створюємо новий елемент з полем isPaid: false
     const newItem = {
       date: formattedDate,
       hours: selectedHours,
       description: itemDescription,
-      isPaid: false, // Додаємо поле isPaid
+      isPaid: false,
     };
 
-    // Викликаємо функцію addItem з батьківського компонента
     addItem(newItem);
 
-    // Очищаємо поле після додавання
     setDescription("");
   };
 
@@ -47,7 +43,7 @@ function Form({ addItem }) {
       onSubmit={handleSubmit}
       className="bg-sky-800 p-1 rounded-xl shadow-md flex items-center flex-nowrap overflow-hidden"
     >
-      <div className="p-2 rounded-lg text-white flex items-center relative">
+      <div className="p-4 rounded-lg text-white flex items-center relative">
         <span
           className="text-lg font-bold cursor-pointer"
           onClick={openDatePicker}

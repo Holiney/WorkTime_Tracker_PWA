@@ -32,7 +32,7 @@ function TotalEarnings({ items, rate }) {
   const totalUnpaid = calculateTotalEarnings(unpaidItems);
 
   return (
-    <div className="mt-auto p-4 bg-sky-900 text-white">
+    <div className=" mt-auto p-4 bg-sky-900 text-white">
       <div className="flex justify-between items-center">
         {/* Оплачено: сірий відтінок */}
         <span className="text-sm opacity-50 font-semibold">

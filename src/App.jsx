@@ -10,18 +10,20 @@ import { useEffect } from "react";
 function App() {
   useEffect(() => {
     const handleTouchMove = (event) => {
-      // Забороняємо стандартну поведінку свайпів
-      event.preventDefault();
+      // Перевіряємо, чи елемент, по якому йде свайп, дозволяє скрол
+      if (!event.target.closest(".no-scroll")) {
+        return; // Якщо це не спеціальний елемент, не блокуємо скрол
+      }
+      event.preventDefault(); // Інакше блокуємо
     };
 
-    // Додаємо обробник події для свайпів
     document.addEventListener("touchmove", handleTouchMove, { passive: false });
 
-    // Прибираємо обробник при видаленні компонента
     return () => {
       document.removeEventListener("touchmove", handleTouchMove);
     };
   }, []);
+
   const router = createBrowserRouter([
     {
       element: <AppLayot />,
