@@ -1,51 +1,46 @@
-// function TotalEarnings({ items, rate }) {
-//   // Функція для обчислення загальної суми зароблених грошей
-//   const calculateTotalEarnings = () => {
-//     const totalHours = items.reduce((sum, item) => sum + item.hours, 0);
-//     return totalHours * rate;
-//   };
-
-//   return (
-//     <div className="mt-auto p-4 bg-sky-900 text-white">
-//       <div className="flex justify-between items-center">
-//         <span className="text-lg font-bold">Загальна сума:</span>
-//         <span className="text-lg">{calculateTotalEarnings()} €</span>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default TotalEarnings;
 function TotalEarnings({ items, rate }) {
-  // Функція для обчислення загальної суми зароблених грошей
-  const calculateTotalEarnings = (items) => {
-    const totalHours = items.reduce((sum, item) => sum + item.hours, 0);
-    return totalHours * rate;
+  // Функція для підрахунку годин
+  const calculateTotalHours = (items) => {
+    return items.reduce((sum, item) => sum + item.hours, 0);
   };
 
-  // Розділяємо items на оплачені та неоплачені
+  // Функція для обчислення грошової суми
+  const calculateTotalEarnings = (hours) => {
+    return hours * rate;
+  };
+
+  // Розділяємо items
   const paidItems = items.filter((item) => item.isPaid);
   const unpaidItems = items.filter((item) => !item.isPaid);
 
-  // Обчислюємо суми для оплачених та неоплачених
-  const totalPaid = calculateTotalEarnings(paidItems);
-  const totalUnpaid = calculateTotalEarnings(unpaidItems);
+  // Підрахунок годин
+  const paidHours = calculateTotalHours(paidItems);
+  const unpaidHours = calculateTotalHours(unpaidItems);
+
+  // Обчислення сум
+  const totalPaid = calculateTotalEarnings(paidHours);
+  const totalUnpaid = calculateTotalEarnings(unpaidHours);
 
   return (
-    <div className=" mt-auto p-4 bg-sky-900 text-white">
+    <div className="mt-auto p-4 bg-sky-900 text-white">
       <div className="flex justify-between items-center">
-        {/* Оплачено: сірий відтінок */}
-        <span className="text-sm opacity-50 font-semibold">
-          Оплачено: {totalPaid} €
-        </span>
+        {/* Оплачена частина */}
+        <div className="flex flex-col">
+          <span className="text-sm opacity-50">Оплачено:</span>
+          <span className="text-xs opacity-50">
+            {paidHours} год • {totalPaid} €
+          </span>
+        </div>
 
-        {/* Неоплачено: яскравий колір */}
-        <span className="text-sm text-green-400 font-semibold">
-          Неоплачено: {totalUnpaid} €
-        </span>
+        {/* Неоплачена частина */}
+        <div className="flex flex-col items-end">
+          <span className="text-sm text-green-400">Неоплачено:</span>
+          <span className="text-xs text-green-400">
+            {unpaidHours} год • {totalUnpaid} €
+          </span>
+        </div>
       </div>
     </div>
   );
 }
-
 export default TotalEarnings;
