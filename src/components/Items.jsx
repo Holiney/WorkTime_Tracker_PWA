@@ -61,7 +61,7 @@ function Items({ items, setItems, onRemove }) {
       const dateB = new Date(
         b.date.split(".").reverse().join("-") + `-${new Date().getFullYear()}`
       );
-      return dateA - dateB;
+      return dateB - dateA;
     });
 
     sortedItems.forEach((item) => {
