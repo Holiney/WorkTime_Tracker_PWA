@@ -1,12 +1,14 @@
-module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+import colors from "tailwindcss/colors";
+
+export default {
+  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        primary: "#1e40af", // Додаємо власний колір
-      },
-      fontFamily: {
-        sans: ["Inter", "sans-serif"], // Додаємо власний шрифт
+        primary: "#1e40af",
+        stone: colors.stone,
+        gray: colors.gray,
+        gogogol: "#fa434f",
       },
     },
   },

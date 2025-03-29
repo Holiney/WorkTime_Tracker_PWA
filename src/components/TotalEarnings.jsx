@@ -22,22 +22,17 @@ function TotalEarnings({ items, rate }) {
   const totalUnpaid = calculateTotalEarnings(unpaidHours);
 
   return (
-    <div className="mt-auto p-4 bg-sky-900 text-white">
-      <div className="flex justify-between items-center">
-        {/* Оплачена частина */}
-        <div className="flex flex-col">
-          <span className="text-sm opacity-50">Оплачено:</span>
-          <span className="text-xs opacity-50">
-            {paidHours} год • {totalPaid} €
-          </span>
+    <div className="bg-sky-100  p-4 rounded-lg shadow flex justify-between">
+      <div>
+        <div className="font-bold">Оплачено</div>
+        <div>
+          {paidHours} год • {totalPaid} €
         </div>
-
-        {/* Неоплачена частина */}
-        <div className="flex flex-col items-end">
-          <span className="text-sm text-green-400">Неоплачено:</span>
-          <span className="text-xs text-green-400">
-            {unpaidHours} год • {totalUnpaid} €
-          </span>
+      </div>
+      <div className="text-right">
+        <div className="font-bold">Неоплачено</div>
+        <div>
+          {unpaidHours} год • {totalUnpaid} €
         </div>
       </div>
     </div>

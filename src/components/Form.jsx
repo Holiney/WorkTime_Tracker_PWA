@@ -41,38 +41,31 @@ function Form({ addItem }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-sky-800 p-1 rounded-xl shadow-md flex items-center flex-nowrap overflow-hidden"
+      className="flex flex-col md:flex-row bg-white rounded-xl p-4 mb-4 shadow-md gap-2 font-bold"
     >
-      <div className="p-4 rounded-lg text-white flex items-center relative">
-        <span
-          className="text-lg font-bold cursor-pointer"
-          onClick={openDatePicker}
-        >
-          {formattedDate}
-        </span>
+      <section className="flex justify-between border-b-2 border-blue-100">
         <input
           type="date"
-          ref={dateInputRef}
+          className="input border-none"
           value={date.toISOString().split("T")[0]}
           onChange={handleDateChange}
-          className="absolute opacity-0 w-0 h-0"
         />
-      </div>
 
-      <select
-        value={selectedHours}
-        onChange={(e) => setSelectedHours(Number(e.target.value))}
-        className="p-2 rounded-lg text-white text-sm bg-sky-800 w-20"
-      >
-        {Array.from({ length: 15 }, (_, i) => i + 1).map((num) => (
-          <option value={num} key={num}>
-            {num} год
-          </option>
-        ))}
-      </select>
+        <select
+          value={selectedHours}
+          onChange={(e) => setSelectedHours(Number(e.target.value))}
+          className="input border-none"
+        >
+          {[...Array(15)].map((_, i) => (
+            <option key={i} value={i + 1}>
+              {i + 1} год
+            </option>
+          ))}
+        </select>
+      </section>
 
       <input
-        className="p-2 min-w-5 rounded-lg text-white placeholder-gray-300 flex-grow text-sm"
+        className="input flex-grow"
         type="text"
         placeholder="Замітка..."
         value={description}
@@ -81,7 +74,7 @@ function Form({ addItem }) {
 
       <button
         type="submit"
-        className="p-2 mr-2 bg-cyan-600 rounded-lg text-white hover:bg-green-600 transition-colors text-sm"
+        className="bg-sky-700 hover:bg-sky-900 transition-colors text-white py-2 px-4 rounded"
       >
         Додати
       </button>

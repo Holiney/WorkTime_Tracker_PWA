@@ -27,7 +27,7 @@ function Dashboard() {
   };
 
   return (
-    <div className="bg-slate-800 flex flex-col min-h-screen h-screen grid-rows-[auto_1fr_auto]">
+    <div className="bg-blue-100 flex px-5 flex-col min-h-screen h-screen grid-rows-[auto_1fr_auto]">
       <User />
       <Form addItem={addItem} />
 
