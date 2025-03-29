@@ -41,7 +41,7 @@ function Form({ addItem }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col md:flex-row bg-white rounded-xl p-4 mb-4 shadow-md gap-2 font-bold"
+      className="flex flex-col md:flex-row bg-white rounded-xl p-4 my-3 shadow-md gap-2 font-bold"
     >
       <section className="flex justify-between border-b-2 p-2 border-blue-100 ">
         <input
