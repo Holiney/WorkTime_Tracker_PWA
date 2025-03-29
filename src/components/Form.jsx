@@ -43,10 +43,10 @@ function Form({ addItem }) {
       onSubmit={handleSubmit}
       className="flex flex-col md:flex-row bg-white rounded-xl p-4 mb-4 shadow-md gap-2 font-bold"
     >
-      <section className="flex justify-between border-b-2 border-blue-100">
+      <section className="flex justify-between border-b-2 border-blue-100 ">
         <input
           type="date"
-          className="input border-none"
+          className="input border-none hover:border-none"
           value={date.toISOString().split("T")[0]}
           onChange={handleDateChange}
         />
@@ -54,7 +54,7 @@ function Form({ addItem }) {
         <select
           value={selectedHours}
           onChange={(e) => setSelectedHours(Number(e.target.value))}
-          className="input border-none"
+          className="input border-none hover:border-none"
         >
           {[...Array(15)].map((_, i) => (
             <option key={i} value={i + 1}>
@@ -65,7 +65,7 @@ function Form({ addItem }) {
       </section>
 
       <input
-        className="input flex-grow"
+        className="input flex-grow border-none hover:border-none"
         type="text"
         placeholder="Замітка..."
         value={description}
