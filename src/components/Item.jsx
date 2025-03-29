@@ -23,7 +23,7 @@ function Item({
     >
       <div className="flex items-center">
         <button onClick={() => onTogglePaid(id)} className="mr-2  text-3xl ">
-          {isPaid ? "✅" : "📅"}
+          {isPaid ? "📅" : "✅"}
         </button>
         <div>
           <div className="font-semibold">{date}</div>
