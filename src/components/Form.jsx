@@ -43,7 +43,7 @@ function Form({ addItem }) {
       onSubmit={handleSubmit}
       className="flex flex-col md:flex-row bg-white rounded-xl p-4 mb-4 shadow-md gap-2 font-bold"
     >
-      <section className="flex justify-between border-b-2 border-blue-100 ">
+      <section className="flex justify-between border-b-2 p-2 border-blue-100 ">
         <input
           type="date"
           className="input border-none hover:border-none"
