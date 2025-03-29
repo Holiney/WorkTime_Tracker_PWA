@@ -65,7 +65,7 @@ function Form({ addItem }) {
       </section>
 
       <input
-        className="input flex-grow border-none hover:border-none"
+        className="input flex-grow border-none hover:border-none px-2"
         type="text"
         placeholder="Замітка..."
         value={description}
