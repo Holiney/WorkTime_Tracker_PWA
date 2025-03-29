@@ -36,14 +36,8 @@ function Item({
         onClick={() => onRemove(id)}
         className="text-green-700 font-light"
       >
-        {isPaid ? "Оплачено" : "❌"}
+        {isPaid ? `Оплачено` : "❌"}
       </button>
-      {/* <button
-        onClick={() => onRemove(id)}
-        className="text-red-500 hover:text-red-700 "
-      >
-        ❌
-      </button> */}
     </li>
   );
 }
