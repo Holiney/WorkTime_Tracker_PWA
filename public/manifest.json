@@ -1,6 +1,6 @@
 {
-  "short_name": "WorkTime",
-  "name": "WorkTime Tracker",
+  "short_name": "Трекер часу",
+  "name": "Трекер робочого часу",
   "icons": [
     {
       "src": "/icons/icon-192x192.png",
@@ -8,9 +8,9 @@
       "sizes": "192x192"
     },
     {
-      "src": "/icons/icon-512x512.png",
+      "src": "/icons/1024-1536.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "1024x1536"
     }
   ],
   "start_url": "/",
