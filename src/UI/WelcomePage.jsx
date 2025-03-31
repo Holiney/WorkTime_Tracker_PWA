@@ -47,7 +47,7 @@ export default function WelcomePage() {
           </button>
         </div>
 
-        <p className="text-sm text-gray-400 mt-6">v2.0</p>
+        <p className="text-sm text-gray-400 mt-6">v2.1</p>
       </div>
     </div>
   );
