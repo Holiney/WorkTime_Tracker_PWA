@@ -11,7 +11,7 @@ function AvatarModal({ isOpen, onClose, onSelectAvatar }) {
   };
 
   const handleImageError = (event) => {
-    event.target.src = "/userIcons/default-avatar.png"; // Заглушка
+    event.target.src = "/userIcons/default-avatar.png";
   };
 
   if (!isOpen) return null;

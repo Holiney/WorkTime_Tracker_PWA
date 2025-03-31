@@ -1,13 +1,9 @@
-import { Link } from "react-router-dom";
+import User from "./User";
 
-function Header() {
+export default function Header() {
   return (
-    <header className="flex items-center justify-center bg-gray-900 text-white px-3 py-3 shadow-lg relative">
-      <Link to="/" className="tracking-widest">
-        WorkTime
-      </Link>
+    <header className=" px-4 py-2 w-full max-w-md mx-auto fixed top-0 left-0 right-0 z-20 bg-[#e9eff6]">
+      <User />
     </header>
   );
 }
-
-export default Header;

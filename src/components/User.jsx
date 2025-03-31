@@ -2,10 +2,10 @@ import { useState } from "react";
 import { useUser } from "../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import AvatarModal from "./AvatarModal";
-import Modal from "react-modal"; // Імпортуємо React Modal
+import Modal from "react-modal";
+import { useWorkItems } from "../contexts/WorkItemsContext";
 
-// Налаштування React Modal (обов'язково для доступності)
-Modal.setAppElement("#root"); // Вкажіть кореневий елемент вашого додатку
+Modal.setAppElement("#root");
 
 function User() {
   const { user, setUser } = useUser();
@@ -16,6 +16,7 @@ function User() {
   const [newRate, setNewRate] = useState(user.hourlyRate);
   const navigate = useNavigate();
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
+  const { dispatch } = useWorkItems(); //
 
   const handleAvatarChange = (avatar) => {
     setUser({ ...user, avatar });
@@ -43,8 +44,12 @@ function User() {
   };
 
   const confirmLogout = () => {
-    setUser({ name: "", hourlyRate: 10 });
-    setIsLogoutModalOpen(false);
+    localStorage.removeItem("user");
+    localStorage.removeItem("work-items");
+
+    setUser(null);
+    dispatch({ type: "reset" });
+
     navigate("/");
   };
 
@@ -59,14 +64,12 @@ function User() {
       <span className="text-lg font-semibold">{user.name}</span>
       <span className="text-sm ">{user.hourlyRate}€/год</span>
 
-      {/* Використовуємо AvatarModal */}
       <AvatarModal
         isOpen={isAvatarModalOpen}
         onClose={() => setIsAvatarModalOpen(false)}
         onSelectAvatar={handleAvatarChange}
       />
 
-      {/* Бургер-іконка */}
       <button
         onClick={() => setIsMenuOpen(!isMenuOpen)}
         className="p-2 focus:outline-none"
@@ -87,7 +90,6 @@ function User() {
         </svg>
       </button>
 
-      {/* Випадаюче меню */}
       {isMenuOpen && (
         <div className="absolute right-0 top-14 bg-white text-gray-800 rounded-lg shadow-lg w-48">
           <button
@@ -105,12 +107,11 @@ function User() {
         </div>
       )}
 
-      {/* Модальне вікно редагування з використанням React Modal */}
       <Modal
         isOpen={isEditModalOpen}
         onRequestClose={() => setIsEditModalOpen(false)}
         className="modal bg-white p-6 rounded-lg  shadow-lg w-11/12 md:w-96 mx-auto mt-20 outline-none"
-        overlayClassName="overlay fixed inset-0 backdrop-blur-sm  flex items-start justify-center pt-20"
+        overlayClassName="overlay fixed inset-0 backdrop-blur-sm z-20 flex items-start justify-center pt-20"
       >
         <h2 className="text-xl font-semibold mb-4 text-gray-800">
           Редагування профілю
@@ -161,16 +162,15 @@ function User() {
         </div>
       </Modal>
 
-      {/* Модальне вікно підтвердження виходу з використанням React Modal */}
       <Modal
         isOpen={isLogoutModalOpen}
         onRequestClose={() => setIsLogoutModalOpen(false)}
-        className="modal bg-white p-6  z-4 rounded-lg shadow-lg w-11/12 md:w-96 mx-auto mt-20 outline-none"
-        overlayClassName="overlay fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center pt-20"
+        className="modal bg-white p-6  z-15 rounded-lg shadow-lg w-11/12 md:w-96 mx-auto mt-20 outline-none"
+        overlayClassName="overlay fixed inset-0 backdrop-blur-sm z-20 flex items-start justify-center pt-20"
       >
         <h2 className="text-xl font-semibold mb-4">Підтвердження виходу</h2>
         <p className="text-gray-800 mb-6">Ви впевнені, що хочете вийти?</p>
-        <div className="flex justify-end space-x-4">
+        <div className="flex justify-end space-x-4 ">
           <button
             onClick={() => setIsLogoutModalOpen(false)}
             className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600"

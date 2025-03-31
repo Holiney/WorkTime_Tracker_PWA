@@ -1,45 +1,43 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import AppLayot from "./UI/AppLayot";
-import Error from "./UI/Error";
-import Home from "./UI/Home";
+import { createBrowserRouter, redirect } from "react-router-dom";
+
+import PublicLayout from "./layouts/PublicLayout";
+import AppLayout from "./AppLayout";
+
+import WelcomePage from "./UI/WelcomePage";
 import Login from "./UI/Login";
 import Dashboard from "./UI/Dashboard";
-import { UserProvider } from "./contexts/UserContext";
-import { useEffect } from "react";
+import ErrorPage from "./UI/ErrorPage";
 
-function App() {
-  useEffect(() => {
-    const handleTouchMove = (event) => {
-      // Перевіряємо, чи елемент, по якому йде свайп, дозволяє скрол
-      if (!event.target.closest(".no-scroll")) {
-        return; // Якщо це не спеціальний елемент, не блокуємо скрол
-      }
-      event.preventDefault(); // Інакше блокуємо
-    };
-
-    document.addEventListener("touchmove", handleTouchMove, { passive: false });
-
-    return () => {
-      document.removeEventListener("touchmove", handleTouchMove);
-    };
-  }, []);
-
-  const router = createBrowserRouter([
-    {
-      element: <AppLayot />,
-      errorElement: <Error />,
-      children: [
-        { path: "/", element: <Home /> },
-        { path: "/login", element: <Login /> },
-        { path: "/Dashboard", element: <Dashboard /> },
-      ],
-    },
-  ]);
-  return (
-    <UserProvider>
-      <RouterProvider router={router} />
-    </UserProvider>
-  );
+function authLoader() {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user || !user.name || !user.hourlyRate) {
+    return redirect("/login");
+  }
+  return null;
 }
 
-export default App;
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <PublicLayout />,
+    children: [
+      { index: true, element: <WelcomePage /> },
+      { path: "login", element: <Login /> },
+    ],
+  },
+  {
+    path: "/",
+    element: <AppLayout />,
+    loader: authLoader,
+    errorElement: <ErrorPage />,
+    children: [
+      { path: "dashboard", element: <Dashboard /> },
+      // в майбутньому:
+      // { path: "reports", element: <Reports /> },
+      // { path: "statistics", element: <Statistics /> },
+      // { path: "settings", element: <Settings /> },
+    ],
+  },
+]);
+
+export default router;

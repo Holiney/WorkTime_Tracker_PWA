@@ -1,43 +1,52 @@
-import { useState, useEffect } from "react";
-import User from "../components/User";
-import Form from "../components/Form";
-import Items from "../components/Items";
-import TotalEarnings from "../components/TotalEarnings";
-import { useUser } from "../contexts/UserContext";
+import { useState } from "react";
+import { useWorkItems } from "../contexts/WorkItemsContext";
 
-function Dashboard() {
-  const { user } = useUser();
+import AddItemForm from "../components/AddItemForm";
+import ItemsList from "../components/ItemsList";
+import SummaryPanel from "../components/SummaryPanel";
 
-  const [items, setItems] = useState(() => {
-    const savedItems = localStorage.getItem("items");
-    return savedItems ? JSON.parse(savedItems) : [];
+export default function Dashboard() {
+  const { summary } = useWorkItems();
+  const [view, setView] = useState("unpaid");
+
+  const [groupMode, setGroupMode] = useState(() => {
+    return localStorage.getItem("group-mode") || "month";
   });
 
-  useEffect(() => {
-    localStorage.setItem("items", JSON.stringify(items));
-  }, [items]);
-
-  const addItem = (newItem) => {
-    const itemWithId = { ...newItem, id: Date.now(), isPaid: false };
-    setItems([...items, itemWithId]);
-  };
-
-  const removeItem = (id) => {
-    setItems((prevItems) => prevItems.filter((item) => item.id !== id));
-  };
+  const hasForm = view === "unpaid";
+  const headerHeight = hasForm ? 220 : 20;
 
   return (
-    <div className="bg-blue-100 flex px-5 flex-col min-h-screen h-screen grid-rows-[auto_1fr_auto]">
-      <User />
-      <Form addItem={addItem} />
+    <div className="bg-[#e9eff6] min-h-screen flex flex-col relative">
+      {hasForm && (
+        <div className="fixed top-[64px] left-0 right-0 z-10 bg-[#e9eff6] px-4 py-3 border-b border-gray-200">
+          <div className="max-w-md mx-auto">
+            <AddItemForm />
+          </div>
+        </div>
+      )}
 
-      <main className="overflow-scroll">
-        <Items items={items} setItems={setItems} onRemove={removeItem} />
+      <main
+        className="flex-1 overflow-y-auto px-4"
+        style={{ paddingTop: `${headerHeight}px`, paddingBottom: "110px" }}
+      >
+        <div className="max-w-md mx-auto">
+          <ItemsList view={view} groupMode={groupMode} />
+        </div>
       </main>
 
-      <TotalEarnings items={items} rate={user.hourlyRate} />
+      <div className="fixed bottom-0 left-0 right-0 z-10 bg-white px-4 py-2 border-t border-gray-200">
+        <div className="max-w-md mx-auto">
+          <SummaryPanel
+            view={view}
+            setView={setView}
+            hours={summary[view].hours}
+            total={summary[view].total}
+            groupMode={groupMode}
+            setGroupMode={setGroupMode}
+          />
+        </div>
+      </div>
     </div>
   );
 }
-
-export default Dashboard;

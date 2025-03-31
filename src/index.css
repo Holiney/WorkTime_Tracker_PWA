@@ -1,13 +1,10 @@
 @import "tailwindcss";
-/* Імпортує весь Tailwind v4 */
-
 @layer components {
   .input {
     @apply rounded-full border border-gray-300 text-gray-700;
   }
 }
 
-/* Заборонити виділення тексту для всіх елементів */
 * {
   user-select: none;
   -webkit-user-select: none;
@@ -15,11 +12,16 @@
   -ms-user-select: none;
 }
 
-/* Дозволити виділення тексту для input та textarea */
 input,
 textarea {
   user-select: text;
   -webkit-user-select: text;
   -moz-user-select: text;
   -ms-user-select: text;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }

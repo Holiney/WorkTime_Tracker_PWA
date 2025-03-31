@@ -1,22 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
+import { RouterProvider } from "react-router-dom";
+
+import router from "./App";
 import "./index.css";
 
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/service-worker.js").then(
-      (registration) => {
-        console.log("Service Worker зареєстровано:", registration);
-      },
-      (error) => {
-        console.error("Service Worker не вдалося зареєструвати:", error);
-      }
-    );
-  });
-}
+import { UserProvider } from "./contexts/UserContext";
+import { WorkItemsProvider } from "./contexts/WorkItemsContext.jsx"; // 👈 ТУТ
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <App />
+    <UserProvider>
+      <WorkItemsProvider>
+        <RouterProvider router={router} />
+      </WorkItemsProvider>
+    </UserProvider>
   </React.StrictMode>
 );
