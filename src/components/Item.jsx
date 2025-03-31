@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 function Item({
   id,
   date,
@@ -26,7 +28,7 @@ function Item({
         <button onClick={() => onTogglePaid(id)} className="text-xl">
           {isPaid ? "📅" : "✅"}
         </button>
-        <div className="flex ">
+        <div className="flex">
           <div className="flex flex-col min-w-20">
             <div className="font-semibold text-gray-800 text-sm">
               {date} {dayOfWeek}
@@ -35,7 +37,7 @@ function Item({
               {hours}год | {total}€
             </div>
           </div>
-          <div className="flex items-center ">
+          <div className="flex items-center">
             {description || "Без заміток"}
           </div>
         </div>
@@ -52,5 +54,16 @@ function Item({
     </li>
   );
 }
+
+Item.propTypes = {
+  id: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+  hours: PropTypes.number.isRequired,
+  rate: PropTypes.number.isRequired,
+  description: PropTypes.string,
+  isPaid: PropTypes.bool.isRequired,
+  onRemove: PropTypes.func.isRequired,
+  onTogglePaid: PropTypes.func.isRequired,
+};
 
 export default Item;

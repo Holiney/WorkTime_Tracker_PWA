@@ -1,24 +1,7 @@
 import { useWorkItems } from "../contexts/WorkItemsContext";
 import Item from "./Item";
 
-// Отримуємо ключ тижня
-const getWeekKey = (date) => {
-  const monthNames = [
-    "Січень",
-    "Лютий",
-    "Березень",
-    "Квітень",
-    "Травень",
-    "Червень",
-    "Липень",
-    "Серпень",
-    "Вересень",
-    "Жовтень",
-    "Листопад",
-    "Грудень",
-  ];
-  const month = monthNames[date.getMonth()];
-
+const getWeekInfo = (date) => {
   const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
   const firstMonday =
     firstDayOfMonth.getDay() === 1
@@ -34,11 +17,16 @@ const getWeekKey = (date) => {
   );
   const weekNumber = Math.floor(daysSinceFirstMonday / 7) + 1;
 
-  return `${month}, Тиждень ${weekNumber}`;
+  const key = `${date.getFullYear()}-${date.getMonth() + 1}-week${weekNumber}`;
+  return {
+    key,
+    startDate: new Date(firstMonday.getTime() + weekNumber * 7 * 86400000),
+  };
 };
 
 export default function GroupedByWeek({ view }) {
   const { items, dispatch } = useWorkItems();
+
   const filtered = items.filter((i) =>
     view === "paid" ? i.isPaid : !i.isPaid
   );
@@ -49,12 +37,23 @@ export default function GroupedByWeek({ view }) {
     const date = new Date(
       `${item.date}.${new Date().getFullYear()}`.split(".").reverse().join("-")
     );
-    const key = getWeekKey(date);
-    if (!grouped[key]) grouped[key] = { items: [], total: 0 };
+    const { key, startDate } = getWeekInfo(date);
+
+    if (!grouped[key]) {
+      grouped[key] = {
+        items: [],
+        total: 0,
+        startDate,
+      };
+    }
 
     grouped[key].items.push(item);
     grouped[key].total += item.hours * item.rate;
   });
+
+  const sortedGroups = Object.entries(grouped).sort(
+    (a, b) => b[1].startDate - a[1].startDate
+  );
 
   const handleRemove = (id) => dispatch({ type: "remove", payload: id });
   const handleTogglePaid = (id) =>
@@ -62,10 +61,10 @@ export default function GroupedByWeek({ view }) {
 
   return (
     <ul className="space-y-4">
-      {Object.entries(grouped).map(([weekKey, data]) => (
-        <div key={weekKey}>
+      {sortedGroups.map(([_, data], index) => (
+        <div key={index}>
           <h3 className="text-sm text-gray-600 font-medium mb-1">
-            {weekKey} — {data.total}€
+            Тиждень — {data.total} €
           </h3>
           {data.items.map((item) => (
             <Item
@@ -78,7 +77,7 @@ export default function GroupedByWeek({ view }) {
         </div>
       ))}
 
-      {Object.keys(grouped).length === 0 && (
+      {sortedGroups.length === 0 && (
         <p className="text-center text-gray-400">
           {view === "paid"
             ? "❌ Оплачених записів немає."

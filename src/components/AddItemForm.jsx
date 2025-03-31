@@ -1,22 +1,25 @@
-import { useState } from "react";
+import { useState, forwardRef } from "react";
 import { useUser } from "../contexts/UserContext";
 import { useWorkItems } from "../contexts/WorkItemsContext";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import PropTypes from "prop-types";
 
 export default function AddItemForm() {
   const { user } = useUser();
   const { dispatch } = useWorkItems();
 
-  const today = new Date().toISOString().split("T")[0];
-
-  const [date, setDate] = useState(today);
+  const [date, setDate] = useState(new Date());
   const [hours, setHours] = useState("8");
   const [description, setDescription] = useState("");
+
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!date || !hours) return;
 
-    const formattedDate = new Date(date).toLocaleDateString("uk-UA", {
+    const formattedDate = date.toLocaleDateString("uk-UA", {
       day: "2-digit",
       month: "2-digit",
     });
@@ -36,22 +39,45 @@ export default function AddItemForm() {
     setDescription("");
   };
 
+  const CustomDateButton = forwardRef(({ value, onClick }, ref) => (
+    <button
+      type="button"
+      onClick={onClick}
+      ref={ref}
+      className="px-3 py-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-100 text-sm"
+    >
+      📅 {value}
+    </button>
+  ));
+
+  CustomDateButton.displayName = "CustomDateButton";
+
+  CustomDateButton.propTypes = {
+    value: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired,
+  };
   return (
     <form
       onSubmit={handleSubmit}
       className="flex flex-col md:flex-row bg-white rounded-xl p-4 mt-2 shadow-md gap-2 font-bold"
     >
-      <div className="flex justify-between border-b-2 p-2 border-blue-100">
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          className="input border-none hover:border-none"
+      <div className="flex justify-between items-center gap-2 border-b-2 p-2 border-blue-100">
+        <DatePicker
+          selected={date}
+          onChange={(selectedDate) => {
+            setDate(selectedDate);
+            setIsDatePickerOpen(false); // закриваємо після вибору
+          }}
+          open={isDatePickerOpen}
+          onClickOutside={() => setIsDatePickerOpen(false)}
+          dateFormat="dd.MM.yyyy"
+          customInput={<CustomDateButton />}
         />
+
         <select
           value={hours}
           onChange={(e) => setHours(e.target.value)}
-          className="input border-none hover:border-none"
+          className="input border border-gray-300 rounded-lg px-2 py-2 text-sm"
         >
           {[...Array(15)].map((_, i) => (
             <option key={i} value={i + 1}>
@@ -60,6 +86,7 @@ export default function AddItemForm() {
           ))}
         </select>
       </div>
+
       <input
         type="text"
         value={description}
@@ -67,6 +94,7 @@ export default function AddItemForm() {
         placeholder="Замітка..."
         className="w-full rounded-lg border-b border-gray-300 px-2 py-1"
       />
+
       <button
         type="submit"
         className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-xl shadow"
