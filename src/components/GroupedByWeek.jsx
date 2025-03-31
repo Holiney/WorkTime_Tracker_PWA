@@ -1,4 +1,5 @@
 import { useWorkItems } from "../contexts/WorkItemsContext";
+import PropTypes from "prop-types";
 import Item from "./Item";
 
 const getWeekInfo = (date) => {
@@ -61,8 +62,8 @@ export default function GroupedByWeek({ view }) {
 
   return (
     <ul className="space-y-4">
-      {sortedGroups.map(([_, data], index) => (
-        <div key={index}>
+      {sortedGroups.map(([groupKey, data]) => (
+        <div key={groupKey}>
           <h3 className="text-sm text-gray-600 font-medium mb-1">
             Тиждень — {data.total} €
           </h3>
@@ -87,3 +88,8 @@ export default function GroupedByWeek({ view }) {
     </ul>
   );
 }
+
+// ✅ Додаємо проп тайпи
+GroupedByWeek.propTypes = {
+  view: PropTypes.oneOf(["paid", "unpaid"]).isRequired,
+};

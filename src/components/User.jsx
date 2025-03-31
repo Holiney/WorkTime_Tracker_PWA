@@ -118,7 +118,9 @@ function User() {
         </h2>
         <div className="space-y-4">
           <div>
-            <label className="block text-gray-700 font-medium mb-2">Ім'я</label>
+            <label className="block text-gray-700 font-medium mb-2">
+              Ім&#39;я
+            </label>
             <input
               type="text"
               value={newName}

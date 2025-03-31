@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 function AvatarModal({ isOpen, onClose, onSelectAvatar }) {
   const [selectedAvatar, setSelectedAvatar] = useState(null);
@@ -57,5 +58,11 @@ function AvatarModal({ isOpen, onClose, onSelectAvatar }) {
     </div>
   );
 }
+
+AvatarModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onSelectAvatar: PropTypes.func.isRequired,
+};
 
 export default AvatarModal;
