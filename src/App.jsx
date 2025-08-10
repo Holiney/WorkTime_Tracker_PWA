@@ -31,12 +31,18 @@ const router = createBrowserRouter([
     loader: authLoader,
     errorElement: <ErrorPage />,
     children: [
-      { path: "dashboard", element: <Dashboard /> },
-      // в майбутньому:
+      // { path: "dashboard", element: <Dashboard /> }, // ВИДАЛИТИ ЦЕ
       // { path: "reports", element: <Reports /> },
       // { path: "statistics", element: <Statistics /> },
       // { path: "settings", element: <Settings /> },
     ],
+  },
+  // ДОДАТИ ОКРЕМИЙ РОУТ ДЛЯ DASHBOARD:
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
+    loader: authLoader,
+    errorElement: <ErrorPage />,
   },
 ]);
 
