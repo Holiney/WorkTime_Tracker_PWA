@@ -560,23 +560,23 @@ const AddItemForm = ({ onAdd, user }) => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-slate-900 to-purple-900 rounded-3xl p-6 mb-6 shadow-2xl border border-purple-500/20 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-pink-600/10 animate-pulse"></div>
+    <div className="bg-gradient-to-br from-slate-900 to-purple-900 rounded-3xl p-5 mb-4 shadow-xl border border-purple-500/20 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-r from-purple-600/8 to-pink-600/8 animate-pulse"></div>
 
       <div className="relative z-10">
-        <div className="flex items-center mb-6">
-          <div className="w-8 h-8 bg-gradient-to-r from-purple-400 to-pink-400 rounded-lg flex items-center justify-center mr-3">
-            <span className="text-white font-bold text-lg">+</span>
+        <div className="flex items-center mb-5">
+          <div className="w-7 h-7 bg-gradient-to-r from-purple-400 to-pink-400 rounded-lg flex items-center justify-center mr-3">
+            <span className="text-white font-bold">+</span>
           </div>
-          <h3 className="text-white font-semibold text-lg">{t.newEntry}</h3>
+          <h3 className="text-white font-semibold">{t.newEntry}</h3>
         </div>
 
-        <div className="flex bg-slate-800/50 rounded-2xl p-1 mb-6 backdrop-blur-sm">
+        <div className="flex bg-slate-800/40 rounded-2xl p-0.5 mb-5 backdrop-blur-sm">
           <button
             onClick={() => setPaymentType("hourly")}
-            className={`flex-1 py-3 px-4 rounded-xl text-sm font-medium transition-all duration-300 ${
+            className={`flex-1 py-3 px-3 rounded-xl text-sm font-medium transition-all duration-300 ${
               paymentType === "hourly"
-                ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg"
+                ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg scale-105"
                 : "text-purple-300 hover:text-white"
             }`}
           >
@@ -584,9 +584,9 @@ const AddItemForm = ({ onAdd, user }) => {
           </button>
           <button
             onClick={() => setPaymentType("fixed")}
-            className={`flex-1 py-3 px-4 rounded-xl text-sm font-medium transition-all duration-300 ${
+            className={`flex-1 py-3 px-3 rounded-xl text-sm font-medium transition-all duration-300 ${
               paymentType === "fixed"
-                ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg"
+                ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg scale-105"
                 : "text-purple-300 hover:text-white"
             }`}
           >
@@ -595,28 +595,28 @@ const AddItemForm = ({ onAdd, user }) => {
         </div>
 
         <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <label className="text-purple-300 text-sm font-medium">
+              <label className="text-purple-300 text-xs font-medium">
                 {t.date}
               </label>
               <input
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full bg-slate-800/70 border border-purple-500/30 rounded-xl px-4 py-3 text-white placeholder-purple-300 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 transition-all duration-200"
+                className="w-full bg-slate-800/60 border border-purple-500/30 rounded-xl px-3 py-2.5 text-white text-sm placeholder-purple-300 focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/20 transition-all duration-200"
               />
             </div>
 
             {paymentType === "hourly" ? (
               <div className="space-y-2">
-                <label className="text-purple-300 text-sm font-medium">
+                <label className="text-purple-300 text-xs font-medium">
                   {t.hours}
                 </label>
                 <select
                   value={hours}
                   onChange={(e) => setHours(e.target.value)}
-                  className="w-full bg-slate-800/70 border border-purple-500/30 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 transition-all duration-200 appearance-none cursor-pointer"
+                  className="w-full bg-slate-800/60 border border-purple-500/30 rounded-xl px-3 py-2.5 text-white text-sm focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/20 transition-all duration-200 appearance-none cursor-pointer"
                 >
                   {[...Array(15)].map((_, i) => (
                     <option key={i} value={i + 1} className="bg-slate-800">
@@ -627,7 +627,7 @@ const AddItemForm = ({ onAdd, user }) => {
               </div>
             ) : (
               <div className="space-y-2">
-                <label className="text-purple-300 text-sm font-medium">
+                <label className="text-purple-300 text-xs font-medium">
                   {t.amount}
                 </label>
                 <input
@@ -635,7 +635,7 @@ const AddItemForm = ({ onAdd, user }) => {
                   value={fixedAmount}
                   onChange={(e) => setFixedAmount(e.target.value)}
                   placeholder={t.enterAmount}
-                  className="w-full bg-slate-800/70 border border-emerald-500/30 rounded-xl px-4 py-3 text-white placeholder-emerald-300 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 transition-all duration-200"
+                  className="w-full bg-slate-800/60 border border-emerald-500/30 rounded-xl px-3 py-2.5 text-white text-sm placeholder-emerald-300 focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 transition-all duration-200"
                   min="0"
                   step="0.01"
                 />
@@ -644,7 +644,7 @@ const AddItemForm = ({ onAdd, user }) => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-purple-300 text-sm font-medium">
+            <label className="text-purple-300 text-xs font-medium">
               {t.description}
             </label>
             <input
@@ -656,23 +656,23 @@ const AddItemForm = ({ onAdd, user }) => {
                   ? t.hourlyPlaceholder
                   : t.fixedPlaceholder
               }
-              className="w-full bg-slate-800/70 border border-purple-500/30 rounded-xl px-4 py-3 text-white placeholder-purple-300 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 transition-all duration-200"
+              className="w-full bg-slate-800/60 border border-purple-500/30 rounded-xl px-3 py-2.5 text-white text-sm placeholder-purple-300 focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/20 transition-all duration-200"
             />
           </div>
 
           <div
-            className={`p-4 rounded-xl border ${
+            className={`p-3 rounded-xl border ${
               paymentType === "hourly"
                 ? "bg-purple-500/10 border-purple-500/30"
                 : "bg-emerald-500/10 border-emerald-500/30"
             }`}
           >
             <div className="flex justify-between items-center">
-              <span className="text-white/70 text-sm">
+              <span className="text-white/70 text-xs">
                 {t.amountToReceive}:
               </span>
               <span
-                className={`font-bold text-xl ${
+                className={`font-bold text-lg ${
                   paymentType === "hourly"
                     ? "text-purple-400"
                     : "text-emerald-400"
@@ -685,7 +685,7 @@ const AddItemForm = ({ onAdd, user }) => {
 
           <button
             onClick={handleSubmit}
-            className={`w-full py-4 rounded-xl font-semibold text-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 ${
+            className={`w-full py-3 rounded-xl font-semibold text-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] ${
               paymentType === "hourly"
                 ? "bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
                 : "bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600"
@@ -948,15 +948,15 @@ const NavigationPanel = ({ items, view, setView, groupMode, setGroupMode }) => {
   ).length;
 
   return (
-    <div className="bg-gradient-to-r from-slate-900 to-purple-900 rounded-3xl p-6 shadow-2xl border border-purple-500/20 relative overflow-hidden">
+    <div className="bg-gradient-to-r from-slate-900 to-purple-900 rounded-3xl p-5 shadow-xl border border-purple-500/20 relative overflow-hidden mb-4">
       <div className="absolute inset-0 bg-gradient-to-r from-purple-600/5 to-pink-600/5"></div>
 
       <div className="relative z-10">
-        <div className="text-center mb-6">
-          <div className="text-4xl font-bold text-white mb-2">
+        <div className="text-center mb-5">
+          <div className="text-3xl font-bold text-white mb-2">
             {totalAmount}€
           </div>
-          <div className="text-purple-300 text-sm">
+          <div className="text-purple-300 text-xs">
             {totalHours > 0 && `${totalHours} ${t.hours.toLowerCase()} • `}
             {hourlyCount > 0 && `${hourlyCount} ${t.hourly.toLowerCase()}`}
             {hourlyCount > 0 && fixedCount > 0 && " • "}
@@ -964,11 +964,11 @@ const NavigationPanel = ({ items, view, setView, groupMode, setGroupMode }) => {
           </div>
         </div>
 
-        <div className="flex justify-center mb-6">
-          <div className="bg-slate-800/50 rounded-2xl p-1">
+        <div className="flex justify-center mb-5">
+          <div className="bg-slate-800/40 rounded-2xl p-0.5">
             <button
               onClick={() => setGroupMode("month")}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
+              className={`px-3 py-2 rounded-xl text-xs font-medium transition-all duration-300 ${
                 groupMode === "month"
                   ? "bg-purple-500 text-white"
                   : "text-purple-300 hover:text-white"
@@ -978,7 +978,7 @@ const NavigationPanel = ({ items, view, setView, groupMode, setGroupMode }) => {
             </button>
             <button
               onClick={() => setGroupMode("week")}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
+              className={`px-3 py-2 rounded-xl text-xs font-medium transition-all duration-300 ${
                 groupMode === "week"
                   ? "bg-purple-500 text-white"
                   : "text-purple-300 hover:text-white"
@@ -992,30 +992,30 @@ const NavigationPanel = ({ items, view, setView, groupMode, setGroupMode }) => {
         <div className="grid grid-cols-2 gap-3">
           <button
             onClick={() => setView("unpaid")}
-            className={`p-4 rounded-2xl text-center transition-all duration-300 transform hover:scale-105 ${
+            className={`p-3 rounded-2xl text-center transition-all duration-300 transform hover:scale-105 ${
               view === "unpaid"
-                ? "bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-xl"
-                : "bg-slate-800/50 text-slate-300 hover:bg-slate-700/50"
+                ? "bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg"
+                : "bg-slate-800/40 text-slate-300 hover:bg-slate-700/40"
             }`}
           >
-            <div className="text-2xl mb-1">⏳</div>
-            <div className="font-semibold">{t.unpaid}</div>
-            <div className="text-sm opacity-80">
+            <div className="text-xl mb-1">⏳</div>
+            <div className="font-semibold text-sm">{t.unpaid}</div>
+            <div className="text-xs opacity-80">
               {items.filter((item) => !item.isPaid).length} {t.records}
             </div>
           </button>
 
           <button
             onClick={() => setView("paid")}
-            className={`p-4 rounded-2xl text-center transition-all duration-300 transform hover:scale-105 ${
+            className={`p-3 rounded-2xl text-center transition-all duration-300 transform hover:scale-105 ${
               view === "paid"
-                ? "bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-xl"
-                : "bg-slate-800/50 text-slate-300 hover:bg-slate-700/50"
+                ? "bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-lg"
+                : "bg-slate-800/40 text-slate-300 hover:bg-slate-700/40"
             }`}
           >
-            <div className="text-2xl mb-1">💰</div>
-            <div className="font-semibold">{t.paid}</div>
-            <div className="text-sm opacity-80">
+            <div className="text-xl mb-1">💰</div>
+            <div className="font-semibold text-sm">{t.paid}</div>
+            <div className="text-xs opacity-80">
               {items.filter((item) => item.isPaid).length} {t.records}
             </div>
           </button>
@@ -1080,16 +1080,16 @@ const Dashboard = () => {
 
       <div className="relative z-10 max-w-2xl mx-auto p-6">
         {/* Заголовок */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-6">
           <div className="flex items-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl mr-4 shadow-xl">
-              <span className="text-2xl">💼</span>
+            <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl mr-3 shadow-lg">
+              <span className="text-xl">💼</span>
             </div>
             <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-emerald-400 bg-clip-text text-transparent">
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-emerald-400 bg-clip-text text-transparent">
                 {t.appName}
               </h1>
-              <p className="text-purple-300 mt-2">
+              <p className="text-purple-300 text-sm mt-1">
                 {t.greeting}, {user.name}! {t.baseRate}: {user.hourlyRate}€/
                 {getHourUnit()}
               </p>
@@ -1098,10 +1098,10 @@ const Dashboard = () => {
 
           <button
             onClick={() => setShowSettings(true)}
-            className="p-4 bg-slate-800/50 hover:bg-slate-700/50 text-purple-300 hover:text-white rounded-2xl transition-all duration-200 hover:scale-110 shadow-lg"
+            className="p-3 bg-slate-800/40 hover:bg-slate-700/60 text-purple-300 hover:text-white rounded-2xl transition-all duration-200 hover:scale-110 shadow-lg backdrop-blur-sm"
             title={t.settings}
           >
-            <span className="text-2xl">⚙️</span>
+            <span className="text-xl">⚙️</span>
           </button>
         </div>
 
