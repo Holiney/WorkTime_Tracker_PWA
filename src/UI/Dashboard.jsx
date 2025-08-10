@@ -824,13 +824,13 @@ const WorkItem = ({ item, onRemove, onTogglePaid, onEdit }) => {
 
   return (
     <div
-      className={`group relative bg-gradient-to-r ${
+      className={`relative bg-gradient-to-r ${
         item.isPaid
           ? "from-green-900/50 to-emerald-900/50 border-green-500/30"
           : item.paymentType === "hourly"
           ? "from-slate-800 to-purple-900/50 border-purple-500/20"
           : "from-slate-800 to-emerald-900/50 border-emerald-500/20"
-      } rounded-2xl p-5 mb-4 border shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] overflow-hidden`}
+      } rounded-2xl p-4 mb-3 border shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.01] overflow-hidden`}
     >
       <div
         className={`absolute left-0 top-0 bottom-0 w-1 ${
@@ -843,10 +843,10 @@ const WorkItem = ({ item, onRemove, onTogglePaid, onEdit }) => {
       ></div>
 
       <div className="flex items-center justify-between">
-        <div className="flex items-start space-x-4">
+        <div className="flex items-start space-x-3 flex-1">
           <button
             onClick={() => onTogglePaid(item.id)}
-            className={`mt-1 w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300 shadow-lg ${
+            className={`mt-1 w-10 h-10 rounded-2xl flex items-center justify-center transition-all duration-300 shadow-lg ${
               item.isPaid
                 ? "bg-gradient-to-r from-green-500 to-emerald-500 text-white transform rotate-12"
                 : "bg-slate-700 text-slate-400 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white hover:scale-110"
@@ -855,14 +855,14 @@ const WorkItem = ({ item, onRemove, onTogglePaid, onEdit }) => {
             {item.isPaid ? "💰" : "⏳"}
           </button>
 
-          <div className="flex-1">
-            <div className="flex items-center space-x-3 mb-2">
-              <span className="text-white font-bold text-lg">{item.date}</span>
-              <span className="text-purple-300 text-sm font-medium bg-purple-500/20 px-2 py-1 rounded-lg">
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center space-x-2 mb-2">
+              <span className="text-white font-bold">{item.date}</span>
+              <span className="text-purple-300 text-xs font-medium bg-purple-500/20 px-2 py-1 rounded-lg">
                 {getDayOfWeek(item.date)}
               </span>
               <span
-                className={`text-xs font-medium px-3 py-1 rounded-full ${
+                className={`text-xs font-medium px-2 py-1 rounded-full ${
                   item.paymentType === "hourly"
                     ? "bg-purple-500/20 text-purple-300"
                     : "bg-emerald-500/20 text-emerald-300"
@@ -876,31 +876,31 @@ const WorkItem = ({ item, onRemove, onTogglePaid, onEdit }) => {
 
             <div className="mb-2">
               <span
-                className={`text-2xl font-bold ${
+                className={`text-xl font-bold ${
                   item.isPaid ? "text-green-400" : "text-white"
                 }`}
               >
                 {total}€
               </span>
               {item.paymentType === "hourly" && (
-                <span className="text-purple-300 text-sm ml-2">
+                <span className="text-purple-300 text-xs ml-2">
                   ({item.hours} {getHourUnit()} × {item.rate}€)
                 </span>
               )}
             </div>
 
             {item.description && (
-              <p className="text-slate-300 text-sm italic bg-slate-800/30 px-3 py-2 rounded-lg">
+              <p className="text-slate-300 text-xs italic bg-slate-800/30 px-2 py-1 rounded-lg truncate">
                 "{item.description}"
               </p>
             )}
           </div>
         </div>
 
-        <div className="flex flex-col space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        <div className="flex items-center space-x-2">
           <button
             onClick={() => setIsEditing(true)}
-            className="p-3 bg-blue-500/20 hover:bg-blue-500 text-blue-400 hover:text-white rounded-xl transition-all duration-200 hover:scale-110"
+            className="p-2 bg-blue-500/20 hover:bg-blue-500 text-blue-400 hover:text-white rounded-lg transition-all duration-200 hover:scale-110"
             title={t.editing}
           >
             ✏️
@@ -908,7 +908,7 @@ const WorkItem = ({ item, onRemove, onTogglePaid, onEdit }) => {
 
           <button
             onClick={() => onRemove(item.id)}
-            className="p-3 bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white rounded-xl transition-all duration-200 hover:scale-110"
+            className="p-2 bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white rounded-lg transition-all duration-200 hover:scale-110"
             title="Видалити"
           >
             🗑️
