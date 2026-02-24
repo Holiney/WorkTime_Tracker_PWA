@@ -1,4 +1,4 @@
-import React, { useState, useReducer, createContext, useContext } from "react";
+import React, { useState, useReducer, createContext, useContext, useEffect } from "react";
 
 // Контекст для налаштувань
 const SettingsContext = createContext();
@@ -12,10 +12,13 @@ const translations = {
     newEntry: "Новий запис",
     hourlyWork: "Погодинна робота",
     fixedPayment: "Фіксований платіж",
+    projectName: "Назва роботи",
     date: "Дата",
     hours: "Години",
     amount: "Сума",
+    hourlyRatePerJob: "Ставка за годину",
     description: "Опис",
+    projectPlaceholder: "Наприклад: Лендинг для клієнта",
     hourlyPlaceholder: "Що робили сьогодні...",
     fixedPlaceholder: "За що отримуєте платіж...",
     amountToReceive: "Сума до отримання",
@@ -52,10 +55,13 @@ const translations = {
     newEntry: "New entry",
     hourlyWork: "Hourly work",
     fixedPayment: "Fixed payment",
+    projectName: "Job name",
     date: "Date",
     hours: "Hours",
     amount: "Amount",
+    hourlyRatePerJob: "Rate per hour",
     description: "Description",
+    projectPlaceholder: "For example: Landing page for client",
     hourlyPlaceholder: "What did you work on today...",
     fixedPlaceholder: "What is this payment for...",
     amountToReceive: "Amount to receive",
@@ -92,10 +98,13 @@ const translations = {
     newEntry: "Nieuwe invoer",
     hourlyWork: "Uurwerk",
     fixedPayment: "Vaste betaling",
+    projectName: "Naam van werk",
     date: "Datum",
     hours: "Uren",
     amount: "Bedrag",
+    hourlyRatePerJob: "Tarief per uur",
     description: "Beschrijving",
+    projectPlaceholder: "Bijv.: Landingpagina voor klant",
     hourlyPlaceholder: "Waar heb je vandaag aan gewerkt...",
     fixedPlaceholder: "Waarvoor is deze betaling...",
     amountToReceive: "Te ontvangen bedrag",
@@ -466,6 +475,7 @@ const initialWorkItems = [
     hours: 8,
     rate: 15,
     description: "Розробка нових компонентів",
+    projectName: "UI бібліотека",
     isPaid: false,
     paymentType: "hourly",
   },
@@ -475,6 +485,7 @@ const initialWorkItems = [
     hours: 6,
     rate: 15,
     description: "Тестування та виправлення багів",
+    projectName: "QA спринт",
     isPaid: false,
     paymentType: "hourly",
   },
@@ -489,6 +500,18 @@ const initialWorkItems = [
     fixedAmount: 250,
   },
 ];
+
+
+const initWorkItems = () => {
+  try {
+    const stored = localStorage.getItem("dashboard-work-items");
+    if (!stored) return initialWorkItems;
+    const parsed = JSON.parse(stored);
+    return Array.isArray(parsed) && parsed.length ? parsed : initialWorkItems;
+  } catch {
+    return initialWorkItems;
+  }
+};
 
 // Хук користувача
 const useUser = () => {
@@ -510,6 +533,10 @@ const AddItemForm = ({ onAdd, user }) => {
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [hours, setHours] = useState("8");
   const [fixedAmount, setFixedAmount] = useState("100");
+  const [hourlyRateForItem, setHourlyRateForItem] = useState(
+    String(user.hourlyRate)
+  );
+  const [projectName, setProjectName] = useState("");
   const [description, setDescription] = useState("");
   const [paymentType, setPaymentType] = useState("hourly");
 
@@ -522,6 +549,10 @@ const AddItemForm = ({ onAdd, user }) => {
     )
       return;
 
+    const parsedHourlyRate = Number(hourlyRateForItem);
+    if (paymentType === "hourly" && (!parsedHourlyRate || parsedHourlyRate <= 0))
+      return;
+
     const dateObj = new Date(date);
     const formattedDate = dateObj.toLocaleDateString("uk-UA", {
       day: "2-digit",
@@ -532,8 +563,9 @@ const AddItemForm = ({ onAdd, user }) => {
       id: crypto.randomUUID(),
       date: formattedDate,
       hours: paymentType === "hourly" ? Number(hours) : 0,
+      projectName: paymentType === "hourly" ? projectName.trim() : "",
       description,
-      rate: paymentType === "hourly" ? user.hourlyRate : Number(fixedAmount),
+      rate: paymentType === "hourly" ? parsedHourlyRate : Number(fixedAmount),
       isPaid: false,
       paymentType,
       fixedAmount: paymentType === "fixed" ? Number(fixedAmount) : null,
@@ -542,12 +574,14 @@ const AddItemForm = ({ onAdd, user }) => {
     onAdd(newItem);
     setHours("8");
     setFixedAmount("100");
+    setHourlyRateForItem(String(user.hourlyRate));
+    setProjectName("");
     setDescription("");
   };
 
   const calculateTotal = () => {
     if (paymentType === "hourly") {
-      return hours * user.hourlyRate;
+      return Number(hours) * (Number(hourlyRateForItem) || 0);
     } else {
       return Number(fixedAmount) || 0;
     }
@@ -643,6 +677,37 @@ const AddItemForm = ({ onAdd, user }) => {
             )}
           </div>
 
+          {paymentType === "hourly" && (
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-2">
+                <label className="text-purple-300 text-xs font-medium">
+                  {t.projectName}
+                </label>
+                <input
+                  type="text"
+                  value={projectName}
+                  onChange={(e) => setProjectName(e.target.value)}
+                  placeholder={t.projectPlaceholder}
+                  className="w-full bg-slate-800/60 border border-purple-500/30 rounded-xl px-3 py-2.5 text-white text-sm placeholder-purple-300 focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/20 transition-all duration-200"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-purple-300 text-xs font-medium">
+                  {t.hourlyRatePerJob}
+                </label>
+                <input
+                  type="number"
+                  value={hourlyRateForItem}
+                  onChange={(e) => setHourlyRateForItem(e.target.value)}
+                  min="0.01"
+                  step="0.01"
+                  className="w-full bg-slate-800/60 border border-purple-500/30 rounded-xl px-3 py-2.5 text-white text-sm placeholder-purple-300 focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400/20 transition-all duration-200"
+                />
+              </div>
+            </div>
+          )}
+
           <div className="space-y-2">
             <label className="text-purple-300 text-xs font-medium">
               {t.description}
@@ -707,6 +772,8 @@ const WorkItem = ({ item, onRemove, onTogglePaid, onEdit }) => {
 
   const [isEditing, setIsEditing] = useState(false);
   const [editHours, setEditHours] = useState(item.hours);
+  const [editRate, setEditRate] = useState(item.rate);
+  const [editProjectName, setEditProjectName] = useState(item.projectName || "");
   const [editDescription, setEditDescription] = useState(item.description);
   const [editFixedAmount, setEditFixedAmount] = useState(
     item.fixedAmount || 100
@@ -735,6 +802,8 @@ const WorkItem = ({ item, onRemove, onTogglePaid, onEdit }) => {
     if (item.paymentType === "hourly") {
       onEdit(item.id, {
         hours: editHours,
+        rate: editRate,
+        projectName: editProjectName.trim(),
         description: editDescription,
       });
     } else {
@@ -764,21 +833,41 @@ const WorkItem = ({ item, onRemove, onTogglePaid, onEdit }) => {
           </div>
 
           {item.paymentType === "hourly" ? (
-            <div className="flex gap-3 items-center">
-              <select
-                value={editHours}
-                onChange={(e) => setEditHours(Number(e.target.value))}
-                className="bg-slate-700 border border-purple-500/30 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-400"
-              >
-                {[...Array(15)].map((_, i) => (
-                  <option key={i} value={i + 1} className="bg-slate-700">
-                    {i + 1} {getHourUnit()}
-                  </option>
-                ))}
-              </select>
-              <span className="text-purple-400 font-semibold">
-                = {editHours * item.rate}€
-              </span>
+            <div className="space-y-3">
+              <div className="flex gap-3 items-center">
+                <select
+                  value={editHours}
+                  onChange={(e) => setEditHours(Number(e.target.value))}
+                  className="bg-slate-700 border border-purple-500/30 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-400"
+                >
+                  {[...Array(15)].map((_, i) => (
+                    <option key={i} value={i + 1} className="bg-slate-700">
+                      {i + 1} {getHourUnit()}
+                    </option>
+                  ))}
+                </select>
+
+                <input
+                  type="number"
+                  min="0.01"
+                  step="0.01"
+                  value={editRate}
+                  onChange={(e) => setEditRate(Number(e.target.value))}
+                  className="bg-slate-700 border border-purple-500/30 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-400 w-28"
+                />
+
+                <span className="text-purple-400 font-semibold">
+                  = {editHours * editRate}€
+                </span>
+              </div>
+
+              <input
+                type="text"
+                value={editProjectName}
+                onChange={(e) => setEditProjectName(e.target.value)}
+                className="w-full bg-slate-700 border border-purple-500/30 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-400"
+                placeholder={t.projectName}
+              />
             </div>
           ) : (
             <div className="flex gap-3 items-center">
@@ -873,6 +962,12 @@ const WorkItem = ({ item, onRemove, onTogglePaid, onEdit }) => {
                   : `💎 ${t.fixed}`}
               </span>
             </div>
+
+            {item.paymentType === "hourly" && item.projectName && (
+              <p className="text-purple-200 text-xs mb-1 bg-purple-500/10 px-2 py-1 rounded-lg inline-block">
+                🧩 {item.projectName}
+              </p>
+            )}
 
             <div className="mb-2">
               <span
@@ -1031,10 +1126,14 @@ const Dashboard = () => {
   const { user } = useUser();
   const t = translations[language];
 
-  const [workItems, dispatch] = useReducer(workItemsReducer, initialWorkItems);
+  const [workItems, dispatch] = useReducer(workItemsReducer, [], initWorkItems);
   const [view, setView] = useState("unpaid");
   const [groupMode, setGroupMode] = useState("month");
   const [showSettings, setShowSettings] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem("dashboard-work-items", JSON.stringify(workItems));
+  }, [workItems]);
 
   const handleAddItem = (newItem) => {
     dispatch({ type: "add", payload: newItem });
